@@ -1,9 +1,6 @@
 from pyrogram import Client, filters, types
 from pyrogram.handlers import UserStatusHandler
-from dotenv.main import load_dotenv
 import os
-
-load_dotenv()
 
 SENDER_ID = os.getenv("SENDER_ID")
 CLIENT_NAME = os.getenv("CLIENT_NAME")
