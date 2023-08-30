@@ -1,16 +1,22 @@
-import asyncio
-from pyrogram import Client
+from pyrogram import Client, filters, types
+from pyrogram.handlers import UserStatusHandler
 from dotenv.main import load_dotenv
 import os
+
 load_dotenv()
 
-api_id = os.environ["API_ID"]
-api_hash = os.environ["API_HASH"]
+SENDER_ID = os.getenv("SENDER_ID")
+CLIENT_NAME = os.getenv("CLIENT_NAME")
+app = Client(CLIENT_NAME)
 
-async def main():
-    clientName = os.environ["client_name"]
+@app.on_message(filters.me != True and filters.private and types.Dialog)
+async def message_handler(Client, message):
+    await message.forward(SENDER_ID)
 
-    async with Client(clientName, api_id, api_hash) as app:
-        await app.send_message("me", "Greetings from **Pyrogram**!")
 
-asyncio.run(main())
+# async def user_status_handler(status, user, Client):
+#     print(user)
+#
+# app.add_handler(UserStatusHandler(user_status_handler))
+
+app.run()
